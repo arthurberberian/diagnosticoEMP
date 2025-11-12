@@ -37,12 +37,12 @@ jobs:
         run: pnpm build:client
 
       - name: Disable Jekyll on Pages
-        run: touch dist/public/.nojekyll
+        run: touch client/dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/public
+          path: client/dist
 
   deploy:
     environment:
@@ -52,6 +52,5 @@ jobs:
     needs: build
     steps:
       - name: Deploy to GitHub Pages
-      Fix: Remove pnpm version conflict
         id: deployment
         uses: actions/deploy-pages@v4
