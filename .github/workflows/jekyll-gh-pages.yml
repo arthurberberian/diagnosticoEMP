@@ -1,4 +1,4 @@
-name: Deploy static site to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -21,28 +21,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "pnpm"
+          node-version: '20'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          cd client
+          npm install
 
-      - name: Build client
-        run: pnpm build:client
-
-      - name: Disable Jekyll on Pages
-        run: touch client/dist/.nojekyll
+      - name: Build
+        run: |
+          cd client
+          npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: client/dist
+          path: ./client/dist
 
   deploy:
     environment:
